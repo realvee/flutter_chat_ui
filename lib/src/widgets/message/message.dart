@@ -127,10 +127,14 @@ class Message extends StatelessWidget {
   final void Function(types.User)? onAvatarTap;
 
   /// Called when user double taps on any message.
-  final void Function(BuildContext context, types.Message)? onMessageDoubleTap;
+  final void Function(
+          BuildContext context, types.Message, TapDownDetails details)?
+      onMessageDoubleTap;
 
   /// Called when user makes a long press on any message.
-  final void Function(BuildContext context, types.Message)? onMessageLongPress;
+  final void Function(
+          BuildContext context, types.Message, LongPressStartDetails details)?
+      onMessageLongPress;
 
   /// Called when user makes a long press on status icon in any message.
   final void Function(BuildContext context, types.Message)?
@@ -140,7 +144,9 @@ class Message extends StatelessWidget {
   final void Function(BuildContext context, types.Message)? onMessageStatusTap;
 
   /// Called when user taps on any message.
-  final void Function(BuildContext context, types.Message)? onMessageTap;
+  final void Function(
+          BuildContext context, types.Message, TapDownDetails details)?
+      onMessageTap;
 
   /// Called when the message's visibility changes.
   final void Function(types.Message, bool visible)? onMessageVisibilityChanged;
@@ -378,9 +384,12 @@ class Message extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onDoubleTap: () => onMessageDoubleTap?.call(context, message),
-                  onLongPress: () => onMessageLongPress?.call(context, message),
-                  onTap: () => onMessageTap?.call(context, message),
+                  onDoubleTapDown: (details) =>
+                      onMessageDoubleTap?.call(context, message, details),
+                  onLongPressStart: (details) =>
+                      onMessageLongPress?.call(context, message, details),
+                  onTapDown: (details) =>
+                      onMessageTap?.call(context, message, details),
                   child: onMessageVisibilityChanged != null
                       ? VisibilityDetector(
                           key: Key(message.id),

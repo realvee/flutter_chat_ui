@@ -247,10 +247,14 @@ class Chat extends StatefulWidget {
   final double? onEndReachedThreshold;
 
   /// See [Message.onMessageDoubleTap].
-  final void Function(BuildContext context, types.Message)? onMessageDoubleTap;
+  final void Function(
+          BuildContext context, types.Message, TapDownDetails details)?
+      onMessageDoubleTap;
 
   /// See [Message.onMessageLongPress].
-  final void Function(BuildContext context, types.Message)? onMessageLongPress;
+  final void Function(
+          BuildContext context, types.Message, LongPressStartDetails details)?
+      onMessageLongPress;
 
   /// See [Message.onMessageStatusLongPress].
   final void Function(BuildContext context, types.Message)?
@@ -260,7 +264,9 @@ class Chat extends StatefulWidget {
   final void Function(BuildContext context, types.Message)? onMessageStatusTap;
 
   /// See [Message.onMessageTap].
-  final void Function(BuildContext context, types.Message)? onMessageTap;
+  final void Function(
+          BuildContext context, types.Message, TapDownDetails details)?
+      onMessageTap;
 
   /// See [Message.onMessageVisibilityChanged].
   final void Function(types.Message, bool visible)? onMessageVisibilityChanged;
@@ -505,13 +511,13 @@ class ChatState extends State<Chat> {
           onMessageLongPress: widget.onMessageLongPress,
           onMessageStatusLongPress: widget.onMessageStatusLongPress,
           onMessageStatusTap: widget.onMessageStatusTap,
-          onMessageTap: (context, tappedMessage) {
+          onMessageTap: (context, tappedMessage, details) {
             if (tappedMessage is types.ImageMessage &&
                 widget.disableImageGallery != true) {
               _onImagePressed(tappedMessage);
             }
 
-            widget.onMessageTap?.call(context, tappedMessage);
+            widget.onMessageTap?.call(context, tappedMessage, details);
           },
           onMessageVisibilityChanged: widget.onMessageVisibilityChanged,
           onPreviewDataFetched: _onPreviewDataFetched,
